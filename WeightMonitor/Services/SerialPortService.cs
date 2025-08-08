@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading.Channels;
 using System.Timers;
 
-namespace VahaMonitor.Services
+namespace WeightMonitor.Services
 {
 	public class SerialPortService
 	{

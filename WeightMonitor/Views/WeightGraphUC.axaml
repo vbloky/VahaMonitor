@@ -2,8 +2,8 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Avalonia;assembly=LiveChartsCore.SkiaSharpView.Avalonia"
-    xmlns:vm="clr-namespace:VahaMonitor.ViewModels"
-    x:Class="VahaMonitor.Views.WeightGraphUC"
+    xmlns:vm="clr-namespace:WeightMonitor.ViewModels"
+    x:Class="WeightMonitor.Views.WeightGraphUC"
     x:DataType="vm:WeightGraphVM">
 
 	<Grid>

@@ -1,12 +1,14 @@
-﻿using LiveChartsCore;
+﻿using BaseUtils.Mvvm;
+using CommunityToolkit.Mvvm.ComponentModel;
+using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using System;
 using System.Collections.Generic;
-using VahaMonitor.Services;
+using WeightMonitor.Services;
 
-namespace VahaMonitor.ViewModels;
+namespace WeightMonitor.ViewModels;
 
-public class WeightGraphVM
+public partial class WeightGraphVM : BaseViewModel
 {
 	private readonly List<double> _values = new();
 	private readonly LineSeries<double> _lineSeries;
@@ -15,6 +17,8 @@ public class WeightGraphVM
 	public ISeries[] Series { get; private set; }
 	public Axis[] XAxes { get; private set; }
 	public Axis[] YAxes { get; private set; }
+
+	[ObservableProperty] public partial double MainWindowWidth { get; set; } = 800;
 
 	public WeightGraphVM(SerialPortService serialService)
 	{

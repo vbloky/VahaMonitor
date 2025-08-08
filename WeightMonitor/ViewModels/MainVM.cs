@@ -1,8 +1,8 @@
 ﻿using BaseUtils.Mvvm;
 using System.Threading;
-using VahaMonitor.Services;
+using WeightMonitor.Services;
 
-namespace VahaMonitor.ViewModels;
+namespace WeightMonitor.ViewModels;
 public partial class MainVM : BaseViewModel
 {
 	private readonly SerialPortService _serialService;

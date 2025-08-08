@@ -6,11 +6,11 @@ using CommunityToolkit.Mvvm.DependencyInjection;
 using HotAvalonia;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
-using VahaMonitor.Services;
-using VahaMonitor.ViewModels;
-using VahaMonitor.Views;
+using WeightMonitor.Services;
+using WeightMonitor.ViewModels;
+using WeightMonitor.Views;
 
-namespace VahaMonitor;
+namespace WeightMonitor;
 
 public partial class App : Application
 {

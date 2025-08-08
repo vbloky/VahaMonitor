@@ -1,7 +1,7 @@
 ﻿using Avalonia;
 using System;
 
-namespace VahaMonitor;
+namespace WeightMonitor;
 
 sealed class Program
 {

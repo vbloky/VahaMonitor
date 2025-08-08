@@ -1,8 +1,8 @@
 using Avalonia.Controls;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using VahaMonitor.ViewModels;
+using WeightMonitor.ViewModels;
 
-namespace VahaMonitor.Views;
+namespace WeightMonitor.Views;
 
 public partial class WeightGraphUC : UserControl
 {

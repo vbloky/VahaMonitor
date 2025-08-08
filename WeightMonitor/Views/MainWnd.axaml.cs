@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 
-namespace VahaMonitor.Views;
+namespace WeightMonitor.Views;
 
 public partial class MainWnd : Window
 {

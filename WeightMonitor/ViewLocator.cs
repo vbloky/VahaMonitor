@@ -3,7 +3,7 @@ using Avalonia.Controls.Templates;
 using BaseUtils.Mvvm;
 using System;
 
-namespace VahaMonitor;
+namespace WeightMonitor;
 
 public class ViewLocator : IDataTemplate
 {
