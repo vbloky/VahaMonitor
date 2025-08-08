@@ -1,115 +1,98 @@
-﻿using Avalonia.Threading;
-using CommunityToolkit.Mvvm.ComponentModel;
-using LiveChartsCore;
-using LiveChartsCore.Defaults;
+﻿using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using System;
-using System.Collections.ObjectModel;
-using System.Linq;
+using System.Collections.Generic;
 using VahaMonitor.Services;
 
-
 namespace VahaMonitor.ViewModels;
-public class WeightGraphVM : ObservableObject
+
+public class WeightGraphVM
 {
-	private readonly ObservableCollection<DateTimePoint> _points = new();
-	private readonly LineSeries<DateTimePoint> _series;
+	private readonly List<double> _values = new();
+	private readonly LineSeries<double> _lineSeries;
 	private readonly SerialPortService _serialService;
-	private readonly DispatcherTimer _updateTimer;
 
-	private TimeSpan _selectedRange = TimeSpan.FromMinutes(1);
-	private double _yMarginRatio = 0.05;
-
-	public ISeries[] Series { get; set; } =
-	{
-		new LineSeries<double>
-		{
-			Values = new ObservableCollection<double>(),
-			Fill = null
-		}
-	};
-
-
-	public Axis[] XAxes { get; set; } =
-	{
-		new Axis
-		{
-			LabelsRotation = 15,
-			Labeler = value => DateTime.Now.AddSeconds(value).ToString("HH:mm:ss"),
-			MinLimit = 0
-		}
-	};
-
-	public Axis[] YAxes { get; set; } =
-	{
-		new Axis
-		{
-			MinLimit = 0,
-			MaxLimit = 10000
-		}
-	};
-
+	public ISeries[] Series { get; private set; }
+	public Axis[] XAxes { get; private set; }
+	public Axis[] YAxes { get; private set; }
 
 	public WeightGraphVM(SerialPortService serialService)
 	{
 		_serialService = serialService;
 
-		_series = new LineSeries<DateTimePoint>
+		_lineSeries = new LineSeries<double>
 		{
-			Values = _points,
-			Fill = null,
-			GeometrySize = 4
+			Values = _values,
+			Fill = null
 		};
 
-		XAxes = new[]
-		{
-			new Axis
-			{
-				Labeler = value => new DateTime((long)value).ToString("HH:mm:ss"),
-				UnitWidth = TimeSpan.FromSeconds(1).Ticks,
-				MinLimit = double.NaN,
-				MaxLimit = double.NaN
-			}
-		};
+		Series = new ISeries[] { _lineSeries };
 
-		YAxes = new[]
+		XAxes = new Axis[]
 		{
 			new Axis
 			{
-				MinLimit = double.NaN,
-				MaxLimit = double.NaN
+				Labeler = value => $"{value:F0}s",
+				MinLimit = 0,
+				MaxLimit = 60,
+				UnitWidth = 1
 			}
 		};
 
-		_updateTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(333) };
-		_updateTimer.Tick += (_, _) => UpdateGraph();
-		_updateTimer.Start();
+		YAxes = new Axis[]
+		{
+			new Axis
+			{
+				MinLimit = 0,
+				MaxLimit = 10000,
+				Labeler = value => $"{value:F0} kg"
+			}
+		};
+
+		ListenToSerialData();
 	}
 
-	private void UpdateGraph()
+	private async void ListenToSerialData()
 	{
-		while (_serialService.MessageReader.TryRead(out var value))
+		await foreach (var value in _serialService.MessageReader.ReadAllAsync())
 		{
-			_points.Add(new DateTimePoint(DateTime.Now, value));
+			AddValue(value);
+		}
+	}
+
+	public void AddValue(double value)
+	{
+		_values.Add(value);
+
+		if (_values.Count > 1800)
+			_values.RemoveAt(0);
+
+		_lineSeries.Values = null;
+		_lineSeries.Values = _values;
+
+		UpdateAxes();
+	}
+
+	private void UpdateAxes()
+	{
+		if (_values.Count == 0) return;
+
+		double minY = double.MaxValue;
+		double maxY = double.MinValue;
+
+		foreach (var v in _values)
+		{
+			if (v < minY) minY = v;
+			if (v > maxY) maxY = v;
 		}
 
-		var cutoff = DateTime.Now - _selectedRange;
-		while (_points.Count > 0 && _points[0].DateTime < cutoff)
-		{
-			_points.RemoveAt(0);
-		}
+		double margin = (maxY - minY) * 0.1;
+		if (margin < 100) margin = 100;
 
-		if (_points.Count > 0)
-		{
-			var minY = _points.Min(p => p.Value);
-			var maxY = _points.Max(p => p.Value);
-			var margin = (maxY - minY) * _yMarginRatio;
+		YAxes[0].MinLimit = minY - margin;
+		YAxes[0].MaxLimit = maxY + margin;
 
-			YAxes[0].MinLimit = minY - margin;
-			YAxes[0].MaxLimit = maxY + margin;
-
-			XAxes[0].MinLimit = _points[0].DateTime.Ticks;
-			XAxes[0].MaxLimit = _points[^1].DateTime.Ticks;
-		}
+		XAxes[0].MaxLimit = _values.Count;
+		XAxes[0].MinLimit = Math.Max(0, _values.Count - 1800);
 	}
 }

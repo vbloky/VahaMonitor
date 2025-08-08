@@ -1,42 +1,40 @@
 <Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="https://github.com/avaloniaui"
-        xmlns:vm="clr-namespace:VahaMonitor.ViewModels"
-		xmlns:views="clr-namespace:VahaMonitor.Views"
-        x:Class="VahaMonitor.Views.MainWnd"
-        Width="400" Height="200"
-        Title="Váha Monitor">
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+		xmlns:d="https://github.com/avaloniaui" 
+		xmlns:vm="clr-namespace:VahaMonitor.ViewModels" 
+		xmlns:views="clr-namespace:VahaMonitor.Views" 
+		x:Class="VahaMonitor.Views.MainWnd" 
+		x:DataType="vm:MainVM" 
+		
+		Width="400" Height="200" Title="Váha Monitor">
 
-	<!-- toto potřebuje bezparametrový konstruktor, proto inicializace na pozadí -->
-	<!--<Window.DataContext>
-		<vm:MainVM />
-	</Window.DataContext>-->
-
-	<StackPanel>
-		<StackPanel Orientation="Horizontal">
+	<Grid RowDefinitions="Auto,Auto,*">
+		<!-- Horní část: aktuální hmotnost -->
+		<StackPanel Orientation="Horizontal" Grid.Row="0">
 			<TextBlock
-				Text="{Binding CurrentWeight, StringFormat=F2}"
+				Text="{CompiledBinding CurrentWeight, StringFormat=F2}"
 				FontSize="48"
 				FontFamily="Consolas"
 				TextAlignment="Right"
-				MinWidth="220"
-        />
+				MinWidth="220" />
 			<TextBlock
 				Text="kg"
 				FontSize="48"
-				Margin="8,0,0,0"
-        />
+				Margin="8,0,0,0" />
 		</StackPanel>
 
-		<StackPanel Orientation="Horizontal">
+		<!-- Rozměry -->
+		<StackPanel Orientation="Horizontal" Grid.Row="1">
 			<TextBlock Text="Šířka x Výška: "/>
 			<TextBlock Text="{Binding Bounds.Size.Width, ElementName=border}" />
 			<TextBlock Text=" x "/>
 			<TextBlock Text="{Binding Bounds.Size.Height, ElementName=border}"/>
 		</StackPanel>
-		<Border x:Name="border" BorderBrush="Orange" BorderThickness="1">
+
+		<!-- Graf -->
+		<Border x:Name="border" Grid.Row="2" BorderBrush="Orange" BorderThickness="1">
 			<views:WeightGraphUC/>
 		</Border>
-		
-	</StackPanel>
+	</Grid>
+
 </Window>

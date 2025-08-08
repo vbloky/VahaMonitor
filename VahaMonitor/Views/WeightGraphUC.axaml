@@ -4,32 +4,17 @@
     xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Avalonia;assembly=LiveChartsCore.SkiaSharpView.Avalonia"
     xmlns:vm="clr-namespace:VahaMonitor.ViewModels"
     x:Class="VahaMonitor.Views.WeightGraphUC"
-	>
+    x:DataType="vm:WeightGraphVM">
 
 	<Grid>
 		<lvc:CartesianChart
             Series="{Binding Series}"
             XAxes="{Binding XAxes}"
-            YAxes="{Binding YAxes}" />
+            YAxes="{Binding YAxes}"
+            VerticalAlignment="Stretch"
+            HorizontalAlignment="Stretch"
+            MinHeight="200"
+        />
 	</Grid>
 </UserControl>
 
-<!--<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:design="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Avalonia;assembly=LiveChartsCore.SkiaSharpView.Avalonia"
-             xmlns:vm="clr-namespace:VahaMonitor.ViewModels"
-             x:Class="VahaMonitor.Views.WeightGraphUC"
-			 x:DataType="vm:WeightGraphVM"
-
-			 design:DataContext="{d:DesignInstance Type=vm:WeightGraphVM, IsDesignTimeCreatable=True}">
-	--><!--<UserControl.DataContext>
-		<vm:WeightGraphVM />
-	</UserControl.DataContext>--><!--
-
-	<Grid>
-		<lvc:CartesianChart Series="{Binding Series}"
-                            XAxes="{Binding XAxes}"
-                            YAxes="{Binding YAxes}" />
-	</Grid>
-</UserControl>-->
