@@ -1,15 +1,16 @@
 <Window xmlns="https://github.com/avaloniaui"
-		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-		xmlns:d="https://github.com/avaloniaui" 
-		xmlns:vm="clr-namespace:WeightMonitor.ViewModels" 
-		xmlns:views="clr-namespace:WeightMonitor.Views" 
-		x:Class="WeightMonitor.Views.MainWnd" 
-		x:DataType="vm:MainVM" 
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="https://github.com/avaloniaui"
+		xmlns:vm="clr-namespace:WeightMonitor.ViewModels"
+		xmlns:views="clr-namespace:WeightMonitor.Views"
+		x:Class="WeightMonitor.Views.MainWnd"
+		x:DataType="vm:MainVM"
 		
-		Width="400" Height="200" Title="Váha Monitor">
+		MinWidth="600" MinHeight="400" Title="Weight Monitor"
+		>
 
-	<Grid RowDefinitions="Auto,Auto,*">
-		<!-- Horní část: aktuální hmotnost -->
+	<Grid RowDefinitions="Auto,*,Auto">
+		<!-- Upper line: Actual weight -->
 		<StackPanel Orientation="Horizontal" Grid.Row="0">
 			<TextBlock
 				Text="{CompiledBinding CurrentWeight, StringFormat=F2}"
@@ -23,18 +24,33 @@
 				Margin="8,0,0,0" />
 		</StackPanel>
 
-		<!-- Rozměry -->
-		<StackPanel Orientation="Horizontal" Grid.Row="1">
-			<TextBlock Text="Šířka x Výška: "/>
-			<TextBlock Text="{Binding Bounds.Size.Width, ElementName=border}" />
-			<TextBlock Text=" x "/>
-			<TextBlock Text="{Binding Bounds.Size.Height, ElementName=border}"/>
+		<!-- upper line right aligned buttons reset graph and options -->
+		<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="20" Spacing="10">
+			<Button Content="Reset Graph" Command="{Binding ResetGraphCommand}" />
+			<Button Content="Settings" Command="{Binding ShowOptionsCommand}" />
 		</StackPanel>
 
 		<!-- Graf -->
-		<Border x:Name="border" Grid.Row="2" BorderBrush="Orange" BorderThickness="1">
+		<Border x:Name="border" Grid.Row="1" BorderBrush="Orange" BorderThickness="1">
 			<views:WeightGraphUC/>
 		</Border>
+
+
+		<!-- Test Dimensions -->
+		<StackPanel Grid.Row="2">
+			<!--<StackPanel Orientation="Horizontal" Grid.Row="1">
+				<TextBlock Text="Window Left, Top: "/>
+				<TextBlock Text="{Binding Position.X, ElementName=border}" />
+				<TextBlock Text=" x "/>
+				<TextBlock Text="{Binding Bounds.Size.Height, ElementName=border}"/>
+			</StackPanel>-->
+			<StackPanel Orientation="Horizontal" >
+				<TextBlock Text="Window Width x Height: "/>
+				<TextBlock Text="{Binding Bounds.Size.Width, ElementName=border}" />
+				<TextBlock Text=" x "/>
+				<TextBlock Text="{Binding Bounds.Size.Height, ElementName=border}"/>
+			</StackPanel>
+		</StackPanel>
 	</Grid>
 
 </Window>

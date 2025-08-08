@@ -99,4 +99,10 @@ public partial class WeightGraphVM : BaseViewModel
 		XAxes[0].MaxLimit = _values.Count;
 		XAxes[0].MinLimit = Math.Max(0, _values.Count - 1800);
 	}
+
+	internal void Clear()
+	{
+		_values.Clear();
+		_lineSeries.Values = null;
+	}
 }

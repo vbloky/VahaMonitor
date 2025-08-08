@@ -31,15 +31,20 @@ public partial class App : Application
 
 			Ioc.Default.ConfigureServices(
 			new ServiceCollection()
+				.AddSingleton<OptionsModel>()
 				.AddSingleton<MainVM>()
 				.AddSingleton<SerialPortService>()
 				.AddSingleton<WeightGraphVM>()
+				.AddSingleton<OptionsVM>()
 				.BuildServiceProvider()
 			);
 
 			desktop.MainWindow = new MainWnd
 			{
 				DataContext = Ioc.Default.GetService<MainVM>(),
+				Position = new PixelPoint(100, 100),
+				Width = 777,
+				Height = 666,
 			};
 		}
 

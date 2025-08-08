@@ -1,29 +1,19 @@
-<UserControl
+<Window
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:vm="clr-namespace:WeightMonitor.ViewModels"
-    x:Class="WeightMonitor.Views.OptionsUC">
+    x:Class="WeightMonitor.Views.OptionsWnd">
 
-	<UserControl.DataContext>
+	<!--<UserControl.DataContext>
 		<vm:OptionsVM />
-	</UserControl.DataContext>
+	</UserControl.DataContext>-->
 
 	<StackPanel Margin="20" Spacing="12">
 
-		<!-- 🎨 Graph Color -->
-		<TextBlock Text="Graph Color:" FontWeight="Bold"/>
-		<ColorPicker SelectedColor="{Binding GraphColor}" />
-		<Rectangle Width="100" Height="20" Fill="{Binding GraphColorBrush}" Stroke="Black"/>
-
-		<!-- 🖌️ Border Color -->
-		<TextBlock Text="Graph Border Color:" FontWeight="Bold"/>
-		<ColorPicker SelectedColor="{Binding GraphBorderColor}" />
-		<Rectangle Width="100" Height="20" Fill="{Binding GraphBorderBrush}" Stroke="Black"/>
-
-		<!-- 🏷️ Axis Label Color -->
-		<TextBlock Text="Axis Label Color:" FontWeight="Bold"/>
-		<ColorPicker SelectedColor="{Binding GraphAxisLabelColor}" />
-		<Rectangle Width="100" Height="20" Fill="{Binding GraphAxisLabelBrush}" Stroke="Black"/>
+		<StackPanel Orientation="Vertical" Margin="20">
+			<TextBlock Text="Select graph color:" Margin="0,0,0,10" />
+			<ComboBox ItemsSource="{Binding BaseColors}" SelectedItem="{Binding GraphColor}" Width="150" />
+		</StackPanel>
 
 	</StackPanel>
-</UserControl>
+</Window>
